@@ -1,0 +1,19 @@
+Lab 1 - installation AWS CLI
+	check .aws folder (c:\users\login(admin)\.aws)
+		if available  (alternative -> work with profiles)
+			rename credentials to credentials.alyx
+			rename config to config.alyx
+	cmd prompt>
+			aws s3 ls
+			 see error - Unable to locate credentials. You can configure credentials by running "aws configure"
+	browser -> aws console -> iam -> create user ->  select Programmatic access	 add policy (admin..)
+			download csv
+	
+	cmd prompt>aws configure
+		AWS Access Key ID [None]: (from csv)
+		AWS Secret Access Key [None]: (from csv)
+		Default region name [None]: us-east-1
+		Default output format [None]: json
+	check .aws folder (c:\users\login(admin)\.aws)
+		see 4 files (if preexisting) or 2 files
+	cmd>aws s3 ls

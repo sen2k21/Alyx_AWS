@@ -1,0 +1,49 @@
+Lab 3 - 
+	Login to Console
+		Services -> s3
+			Create bucket
+				bucketname - unique
+				region - us-east-1
+			Upload a file 
+			click on the file -> see http url
+		Services -> s3
+			Create bucket
+				bucketname - unique
+				region - us-east-2
+			Upload a file 
+			click on the file -> see http url
+		Compare two urls 
+Lab 2 - 
+	Login to Console
+		Services -> IAM 
+			Users -> Create a new user
+						username - user1
+						password - 
+							select only for AWS Console
+						Attach Policy - s3full access
+						Download csv
+	Other Browser(Incognito)
+		copy url from csv 
+		try to login
+			check access to ec2 and s3
+-----------------------------
+Lab 1 - login to your free tier account
+1. Go to myaccount -> 
+	Preferences 
+			Billing preferences
+				Cost Management Preferences
+					Receive Free Tier Usage Alerts -> select and give email
+					save
+			Payment methods
+				uncheck -> Enable recurring payments for default payment method 
+	Cost Management
+		Budgets
+			Cost budget
+				Name - totalAmt
+				Perion - monthly
+				Budgeted amount - $1
+				
+				Define your budget threshold -> Forecasted Cost ->
+					Alert threshold 50
+					Email -
+					

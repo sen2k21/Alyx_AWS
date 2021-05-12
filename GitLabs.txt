@@ -1,0 +1,95 @@
+Lab 4 - 
+      create two folders  (person1 and person2)
+      cmd > cd person1
+
+      person1>git pull  https://github.com/Vaishali-Tapaswi/Alyx_AWS
+        Check error message
+      person1>git init
+      person1>git pull  https://github.com/Vaishali-Tapaswi/Alyx_AWS
+      create p1.txt in person1 folder
+      person1>git add p1.txt
+      person1>git commit
+      person1> git remote add alyx https://github.com/Vaishali-Tapaswi/Alyx_AWS  
+            var alyx = https://github.com/Vaishali-Tapaswi/Alyx_AWS
+      person1>git push alyx
+        See error message
+      person1>git push --set-upstream alyx master
+      --------> go to https://github.com/Vaishali-Tapaswi/Alyx_AWS  
+          check two branches (master+main)-> see pull request and merge
+      cmd > cd person2
+
+      person1>git pull  https://github.com/Vaishali-Tapaswi/Alyx_AWS
+        Check error message
+      person1>git init
+      person1>git pull  https://github.com/Vaishali-Tapaswi/Alyx_AWS
+      create p1.txt in person1 folder
+      person1>git add p1.txt
+      person1>git commit
+      person1> git remote add alyx https://github.com/Vaishali-Tapaswi/Alyx_AWS  
+            var alyx = https://github.com/Vaishali-Tapaswi/Alyx_AWS
+      person1>git push alyx
+        See error message
+      person1>git push --set-upstream alyx master
+      --------> go to https://github.com/Vaishali-Tapaswi/Alyx_AWS  
+          check two branches (master+main)-> see pull request and merge
+
+		
+
+
+Basic Introduction + GIT
+Lab 3 - 
+	go github, login
+		Create repository ->name -> tmpdemo
+			Add a README file (select)
+		
+		
+	In an empty directory 
+		call 
+			clone   -   Clone a repository into a new directory
+			git clone [<options>] [--] <repo> [<dir>]
+			git clone -v https://github.com/Vaishali-Tapaswi/Alyx_AWS .
+			
+			Create a text file
+			add
+			commit
+			
+			There are two 
+			https://github.com/Vaishali-Tapaswi/Alyx_AWS (remoterepo - repo2)
+			C:\data\vai2021\alyx\gitdemo1 (localrepo-repo1)
+			
+		git push (check error)
+		git pull
+		git push 
+			Check github repo
+		git status
+		git log
+		
+
+
+--------------------------
+Lab 2 - 
+  Create an empty directory (outsite project)
+		dir (only . and ..)
+		git init
+			(. , .. and .git (hidden)-> show hidden files)
+		create aa.txt
+		git status (aa.txt -> untracked file)
+		git add aa.txt 
+		git status (aa.txt -> tracked file)
+		git commit (git commit -m "version 1")
+		git log (sha..)
+		git status
+		modify aa.txt
+		add
+		commit
+		git log (check two version2)
+    
+    create one file (check add/ rm)
+    
+-----------------------------------------
+Lab 1 - 
+  Install Git on local machine
+  Create account for GitHub
+  
+
+    

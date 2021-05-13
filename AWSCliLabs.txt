@@ -1,3 +1,31 @@
+Lab 3 - S3
+	Using Console
+		Make a file public
+		Enable Versioning
+			upload a file (once)-> check url 
+			upload same file again (with some changes)-> check url and public access
+	Using CLI
+		Create s3 bucket
+		List Contents of bucket
+		copy files from local directory to s3 bucket
+		remove all buckets
+
+Lab 2 -  IAM
+	Console
+		Create User (Console, CLI, COnsole+CLI)
+		Create Group (attach policies + couple of users to test)
+	CLI
+		REST(Create, delete, get, list,put, update)
+		Create user
+			aws iam  create-user --user-name user3
+		attach policy
+			  aws iam attach-user-policy --user-name user3 --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+	CLI
+		Create a group (grp1)
+		allow admin access to group
+		create a user (usr5)
+		modify user to be part of that group
+		
 Lab 1 - installation AWS CLI
 	check .aws folder (c:\users\login(admin)\.aws)
 		if available  (alternative -> work with profiles)

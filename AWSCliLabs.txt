@@ -1,3 +1,56 @@
+Lab 6 - terminate all instances using CLI
+ aws ec2 describe-instances
+ aws ec2 terminate-instances --instance-ids {i-09e775819e57e2b97}
+
+
+Lab 5 - EC2 (linux instance)
+
+	Console -> Services -> EC2 -> launch instance
+		Select AMI - linux
+			select CentOS 7 (x86_64) - with Updates HVM
+
+		Hardware 
+			Free tier (t2.micro)
+		Next(*)
+			Storage
+			Tag
+			Network -(protocol, port, ip address(current machine, custom, all))-> rdp, ssh
+			Security -> download/select pem file 
+		Launch
+		
+	ec2 -> instance -> select instance -> connect
+			Select SSH client
+				Windows (Check installation)-run the command
+			Putty
+				puttygen -> convert pem file to ppk
+				run putty -> with ppk file
+
+Lab 4 - EC2 (windows instance)
+	Console -> Services -> EC2 -> launch instance
+		Select AMI - search for windows 
+			select Microsoft Windows Server 2019 Base
+		Hardware 
+			Free tier (t2.micro)
+		Next(*)
+			Storage
+			Tag
+			Network -(protocol, port, ip address(current machine, custom, all))-> rdp, ssh
+			Security -> download pem file
+		Launch
+	ec2 -> instance -> select instance -> connect
+			RDP -> Download RDP, click on get password -select pem file and decrypt
+			
+	Click on RDP file-> give password and connect
+	On Remote windows instance	
+			Disable all firewall
+	cmd>ping dnsname
+		observe error
+	Console -> click on ec2 instance ->security -> click on security group
+			edit inbound rule
+				Custom ICMP - IPv4 -> echo request -> from all ip addresses -> save
+	cmd>ping dnsname
+		successful
+
 Lab 3 - S3
 	Using Console
 		Make a file public

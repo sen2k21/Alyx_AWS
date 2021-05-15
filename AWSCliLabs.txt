@@ -1,3 +1,48 @@
+Lab 9 - AWS CLI to RDS
+	aws rds describe-instances
+	
+	Console -> delete the database
+		1. de-Select final snapshot
+		2. Delete
+		
+	Confirm -> manual /automatic snapshot is empty
+Lab 8 - Connect using mysql plugin
+	Console -> rds -> copy endpoint for database
+	Chrome -> search for mysql plugin for chrome -> launch
+	Connection -> name -
+				  host - endpoint
+				  port - 3306
+				  login - admin
+				  password - 
+				Test connection
+				Connect
+	Query editor 
+		select innodb
+			Create table dept (deptno numeric(2) primary key, dname varchar(20), loc varchar(20))
+			insert into dept values (10,'HR','Pnq');
+		refresh -> check the table name
+		
+		
+Lab 7 - RDS
+	Console -> Services -> RDS
+	Create database
+		Standard Create
+		MySQL
+			Version - 5.6.34
+			Templates - Free Tier
+			DB instance identifier - mydb
+			Master - admin
+			password - mypassword
+			db instance  - t2.micro
+			storage - no change
+			connectiving - no change
+			public access - yes
+			VPC security group
+				New (name - rdssecgroup
+			Database authentication - no change
+			Create Database
+			
+			
 Lab 6 - terminate all instances using CLI
  aws ec2 describe-instances
  aws ec2 terminate-instances --instance-ids {i-09e775819e57e2b97}

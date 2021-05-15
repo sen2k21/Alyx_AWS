@@ -1,0 +1,74 @@
+Lab 3 - Insert.Delete and Update for emp table
+	Insert a record
+	 	create put-item.json
+		 {
+		  "empno": {
+		    "N": "6"
+		  },
+		  "ename": {
+		    "S": "sixth"
+		  },
+		  "salary":{
+			"N": "6666"
+		  }
+		}
+		aws dynamodb put-item --table-name emp --item file://put-item.json
+
+	 
+	delete-item
+
+	update-item (modify record)
+
+
+
+Lab 2 - aws cli for dynamodb
+	aws dynamodb list-tables
+	
+	Prep to run the query 
+		aws dynamodb query --table-name emp --key-condition-expression "ename = 'aaa'" 
+		-> error
+		in folder query
+			Create a file expression-attributes.json
+				{
+					":v1": {"N": "1"}
+				}
+		c:\query>aws dynamodb query --table-name emp --key-condition-expression "empno = :v1" --expression-attribute-values file://expression-attributes.json
+
+	
+Lab 1 - 
+	Console -> services -> dynamodb
+		Create table 	emp
+			items
+				insert 3/4 items (empno, ename, salary)
+				Array ->	{
+					  "empno": 4,
+					  "friendlist": [
+						{
+						  "age": 31,
+						  "city": "New York",
+						  "empno": 2,
+						  "mgr": 2,
+						  "name": "John1"
+						},
+						{
+						  "age": 33,
+						  "city": "W DC",
+						  "name": "John2"
+						}
+					  ],
+					  "login": "user4",
+					  "paswd": "pppp"
+					}
+				Nested obj
+					{
+				"empno": 5,
+				"alias":   {
+					  "age": 31,
+					  "city": "New York",
+					  "empno": 2,
+					  "mgr": 2,
+					  "name": "John1"
+				 }
+				 }
+		insert couple of records
+		

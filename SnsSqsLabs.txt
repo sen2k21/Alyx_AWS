@@ -1,0 +1,14 @@
+Lab 1 - 
+	Console -> Services -> SNS -> Create Topic
+			Standard
+			Name - TestTopic1
+			Create Topic
+			Send message -> no subscribers
+	Console -> Services -> SNS ->Subscriptions
+		TopicARN
+			Protocol -> email, email-json, sms
+			Create Subscriptions
+			Confirmation Pending
+	Email Client -> Confirm Subscription
+	Console -> Services -> SNS -> Topic ->Send message
+	

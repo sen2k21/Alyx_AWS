@@ -1,0 +1,12 @@
+Create ec2 instance
+	AMI  - bitnami tomcat
+	create instance
+	ssh -i "mayalyx.pem" bitnami@ec2-54-226-227-74.compute-1.amazonaws.com
+		cd stack/tomcat/webapps/ROOT
+		sudo vi index.jsp
+		modify something
+		:wq
+	browser -> ec2-54-226-227-74.compute-1.amazonaws.com
+Console -> ec2 -> instance -> monitoring
+CloudWatch-> metrics -> ec2 
+CloudWatch-> metrics -> dynamodb 

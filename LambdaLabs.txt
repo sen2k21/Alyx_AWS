@@ -1,0 +1,134 @@
+Lab 6 - Create an object in s3 bucket 
+	Create bucket - 
+		Bucket name - tmp-01-01-lambda-put
+			enable versioning
+	Lambda 
+		Create function
+			demo3
+			import boto3
+			# Create an S3 client
+			s3 = boto3.client('s3')
+
+			def lambda_handler(event, context):
+			 bucket_name = event['bucket_name']
+			 response = s3.put_object(
+				 Bucket=bucket_name,
+				 Key='demo1',
+				 Body='Sample Text demo1',
+				 ACL='public-read'
+			 )
+			 return response
+	Run -> by passing {"bucket_name":"tmp-01-01-lambda-put"}
+		observe error
+	bucket -> public -> read/write
+	lambda -role-> attach policy -s3 full accesss
+	
+	Optional -> {"bucket_name":"tmp-01-01-lambda-put", "obj_name":"", "content":"ffff"}
+	
+	
+Lab 5 - 
+	Context information
+		import time
+
+		def lambda_handler(event, context):   
+		    print("Lambda function ARN:", context.invoked_function_arn)
+		    print("CloudWatch log stream name:", context.log_stream_name)
+		    print("CloudWatch log group name:",  context.log_group_name)
+		    print("Lambda Request ID:", context.aws_request_id)
+		    print("Lambda function memory limits in MB:", context.memory_limit_in_mb)
+		    # We have added a 1 second delay so you can see the time remaining in get_remaining_time_in_millis.
+		    time.sleep(1) 
+		    print("Lambda time remaining in MS:", context.get_remaining_time_in_millis())
+
+	Logger
+		import os 
+		import logging 
+		logger = logging.getLogger() logger.setLevel(logging.INFO) 
+		def lambda_handler(event, context): 	
+			logger.info('## ENVIRONMENT VARIABLES’) 
+			logger.info(os.environ) logger.info('## EVENT’) 	logger.info(event)
+
+	Versioning
+		modify hello-world code to show verion1/version2
+			Versioning enable two version and call 
+			
+Lab 4 - accept payload
+	create demo2 lambda function
+		import json
+		def lambda_handler(event, context):
+			message = 'Hello {} {}!'.format(event['firstname'], event['lastname'])  
+    			print(event['firstname'])
+    			return { 
+        			'message' : message
+    			}
+	
+	Test it with two 1. Empty json as input 2. {
+ 				 "firstname": "aaa",
+  				 "lastname": "bbb"
+				}
+    	Invoke lambda function from Console + CLI
+	
+	CLI
+		1. empty payload
+			aws lambda invoke   --function-name demo2 resp1.json
+		2. with payload 
+			create tmp.json ({
+ 				 "firstname": "aaa",
+  				 "lastname": "bbb"
+				})
+			aws lambda invoke   --function-name demo2    --payload file://tmp.json resp1.json
+	CloudWatch see logs
+
+	
+Lab 3- 
+	s3 trigger
+	invoke lambda function from cli
+	aws lambda invoke
+	
+
+Lab 2 - Create a trigger for demo1
+	IAM ->modify demo1 role to grant sqs permissions
+				AmazonSQSFullAccess
+	Lambda (to create trigger)
+		Option 1
+			Lambda -> demo1 
+				Click add triger
+					Trigger configuration -> SQS
+					SQS queue - myqueue
+					Batch size - 3
+					Batch window - 1
+					select "Enable trigger"
+					In case of permission error -> check role once again
+		Option 2
+			SQS-> myqueue->lambda triggers
+	Test
+		SQS -> send message (observe the time of messaging)
+			Check Lambda to see function invocation.
+				Lambda - monitoring
+				CloudWatch - monitoring
+---------------------------
+Lab 1 - helloWorld Lambda 
+	Console -> Services -> lambda
+		Create Function ->Author from scratch
+			Functio name - demo1
+			Runtime - python 3.8
+			permissions - na
+				Create function
+			
+		Code
+			select lambda_function.py
+				edit file ... at least message
+				Click on deploy
+			Test-> configure test event ->
+					Create a new event
+						name - 
+						json - empty
+						Create
+			Shift from tab "Code" to "Test"
+				Test ->
+		Watch 
+			CloudWatch - logs
+			Roles
+				check policy and service for newly created role
+			
+			

@@ -1,3 +1,7 @@
+Lab 2 - Console -> Services -> SQS -> 
+	Create queue -> Standard -> try send and receive 
+		Create one sns subscription and check sns topic subscriptions 
+
 Lab 1 - 
 	Console -> Services -> SNS -> Create Topic
 			Standard

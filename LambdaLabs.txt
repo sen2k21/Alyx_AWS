@@ -1,3 +1,96 @@
+Lab 9 - select demo1
+			click on get -> deploy API
+					deployment stage -new stage -> give name -> deploy
+				in stages section
+					click on stg1 -> get request -> copy invoke url -> browser
+			
+			Test it using postman
+				Get
+				Post
+					Header -> Content type -> application/json
+					Body
+					{
+					"first": "VaishaliPostman",
+					"last": "TapaswiPostman"
+					}
+			Cloud Watch	
+
+Lab 8 - modify demo1 api gateway
+		create method -> post
+			lambda function - demo2
+				(
+				import json
+				def lambda_handler(event, context):
+					
+					message = 'Hello version12 {} {}!'.format(event['firstname'], event['lastname'])  
+					print("version2",event['firstname'])
+					return { 
+						'message' : message
+					}
+				)
+			Test -> in method body 
+				{
+					"firstname": "Vaishali",
+					"lastname": "Tapaswi"
+				}
+				Watch message -> before transformation and after transformation
+			Change (client payload
+				{
+					"first": "Vaishali",
+					"last": "Tapaswi"
+				}
+				Test -> Error
+			Post -> Click on integration request
+				Mapping Templates -> 
+					Request body passthough -  When no template matches the request Content-Type header  
+					Content type- application/json
+					Modify template 
+						{
+							"firstname": $input.json('$.first'),
+							"lastname": $input.json('$.last')
+						}
+					Save
+			Test 
+				Watch message -> before transformation and after transformation
+
+
+Lab 7 - API gateway
+	Lambda - demo1 - 
+		import json
+
+		def lambda_handler(event, context):
+		    print("Hello from Lambda!")
+		    return {
+			'statusCode': 200,
+			'body': json.dumps('Hello from Lambda!')
+		    }
+	
+	Expose demo1 as API Gateway
+		Console -> Services -> API Gateway
+			Create API -> REST API -> build 
+				Choose the protocol
+					REST
+					Create new API -> new API
+					Setting 	name - demo1
+					Endpoint Type - regional
+				
+				Actions
+					new resource
+						Resource Name - demo1
+						Resource Path - /demo1
+						create resource
+				Actions (on /demo1)
+					create method -> get
+						Integration type - lambda
+						Lambda Region - us-east-1
+						Lambda Function - demo1 (arn)
+						add permission -> ok
+				Test 
+					Test-> will invoke your lambda function
+				Check
+					AWS cloudwatch
+
+
 Lab 6 - Create an object in s3 bucket 
 	Create bucket - 
 		Bucket name - tmp-01-01-lambda-put

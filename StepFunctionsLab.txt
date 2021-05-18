@@ -1,0 +1,82 @@
+Step Functions Lab  -> Select single role for three functions
+1. Create lambda functions
+		OpenCaseFunction  Input ---> { "inputCaseID":"CardExpired1"}
+import json
+def lambda_handler(event, context):
+ myCaseID = event['inputCaseID']
+ myMessage = "Case " + myCaseID + ": opened..."
+ 
+ return  {
+  'Case':myCaseID, 
+  'Message':myMessage
+ }
+						Output ----> {   'Case':myCaseID,    'Message': "Case CardExpired1 : opened..."  }
+AssignCaseFunction
+import json
+def lambda_handler(event, context):
+ myCaseID = event['Case']
+ myMessage = event['Message'] + "assigned..."
+ 
+ return  {
+  'Case':myCaseID, 
+  'Message':myMessage
+}
+						Output ----> {   'Case':myCaseID,    'Message': "Case CardExpired1 : opened...assigned..."  }
+		
+CloseCaseFunction
+import json
+def lambda_handler(event, context):
+  myCaseID = event['Case']
+  myMessage = event['Message'] + "Closed..."
+  myCaseStatus = "CloseStatus"
+  return  {
+    'Case':myCaseID, 
+    'Status' : myCaseStatus,
+    'Message':myMessage
+    }
+	Output ----> {   'Case':myCaseID, Status:"CloseStatus",   'Message': "Case CardExpired1 : opened...assigned...Closed..,"  }
+
+
+Create a State Machine & Serverless Workflow
+Console->Services->State Machine
+Create State Machine
+		 Select Author with code snippets.  
+			Name = CallCenterStateMachine
+			Type = standard
+			Replace Code -
+{
+  "Comment": "A simple AWS Step Functions state machine that automates a call center support session.",
+  "StartAt": "Open Case",
+  "States": {
+    "Open Case": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:850774225033:function:OpenCaseFunction",
+      "Next": "Assign Case"
+    },
+    "Assign Case": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:850774225033:function:AssignCaseFunction",
+      "Next": "Close Case"
+    },
+    "Close Case": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:850774225033:function:CloseCaseFunction",
+      "End": true
+    }
+  }
+}
+--> select State machines > your machine->
+	Start execution
+		Monitoring
+		Diagram + flow
+		Cloud Watch 
+		
+
+
+--> select State machines > your machine->
+	Actions -> Ccreate event bridge(CloudWatch) rule
+		after 1/2 mins
+		check logs
+----------------------------------------
+Closing -> CloudWatch -> delete rule
+		-> State machine -> Delete

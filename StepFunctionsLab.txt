@@ -1,3 +1,27 @@
+
+Catch Lab for Step function
+	Start with a template -> Catch -> invoke a OpenCaseFunction
+	try sending different inputs
+		{"inputCaseID" :1}
+		{"inputCaseID" :"aa"}
+		{}
+	-> for all -> successed, in flow -> catch messages
+
+Choice Lab for Step function
+	Create state machine
+		start with a template
+			Template - choice state
+				standard
+		Edit 
+			modify all states as "Pass" 
+				for Firststate, Next -> remove result, just keep type and next
+				for firstMatchState , secondMatchState-> add result as static text 
+		Start execution
+			{ "fooxx" : "aaa"}
+			{"foo" : 1}
+			{"foo" : 2}
+			{"foo" : 10}
+---------------------------------------
 Step Functions Lab  -> Select single role for three functions
 1. Create lambda functions
 		OpenCaseFunction  Input ---> { "inputCaseID":"CardExpired1"}

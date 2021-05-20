@@ -1,4 +1,67 @@
 
+2. Expose it as API Gateway
+1. Create a role
+	API Gateway Role ->API Gateway
+		Grant Permissions ->AWSStepfunctionfullaccess
+		copy role->	arn:aws:iam::850774225033:role/MyAPIRoleForStateInvoke
+2. Expose statemachine as API Gateway
+		Console -> Services -> Step Function
+			Create API -> REST API -> build 
+				Choose the protocol
+					REST
+					Create new API -> new API
+					Setting 	name - demo1step
+					Endpoint Type - regional
+				
+				Actions
+					new resource
+						Resource Name - demo1
+						Resource Path - /demo1
+						create resource
+				Actions (on /demo1)
+					create method -> post
+						Integration type - AWS Service
+						AWS Region - us-east-1
+						AWS service -> step functions
+						Http method -POst
+						action type - use action name
+						Action -> StartExecution
+						Execution role - put role arn
+						Content Handling -> passthrough
+						Save
+				Test 
+					Test
+					Post request body  -> edit arn for your state machine
+						{
+							"input": "{\"name\":\"Fands\"}",
+							"name": "MyExecution",
+							"stateMachineArn": "arn:aws:states:us-east-1:850774225033:stateMachine:ParallelDemo"
+						}
+				Check
+					State machine -> executions
+
+Optional -> change the integration -> coversion 					
+Transfer
+{
+    "input": "$util.escapeJavaScript($input.json('$'))",
+    "stateMachineArn": "arn:aws:states:us-east-1:123456789012:stateMachine:HelloWorld"
+} 
+
+and just pass {"input": "{\"name\":\"Fands\"}"}
+
+-----------------------------------------------------------
+Parallel Lab for Step function
+	Start with a template -> Parallel -> 
+		Test 
+	Edit this template
+		start (input -> from, to)
+			states ->Pass State-> Airindia, kingfisher, Jet
+			Parallel -> with all three airlines + some time taken(2,7, 3)
+			Final state -> show
+			
+
+---------------------------------------------------------
+
 Catch Lab for Step function
 	Start with a template -> Catch -> invoke a OpenCaseFunction
 	try sending different inputs

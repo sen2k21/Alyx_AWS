@@ -1,4 +1,183 @@
+Human Workflow - CloudFormation
+	Create a flow.yml file (https://aws.amazon.com/blogs/compute/implementing-serverless-manual-approval-steps-in-aws-step-functions-and-amazon-api-gateway/)
+	upload to s3 bucket
+	Cloud Formation ->Read template -> s3 url of flow.yml
+		Create stack
+	Test
+		delete stack
+		
+--------------------------------------------------
+Human Workflow - Manual  (https://aws.amazon.com/blogs/compute/implementing-serverless-manual-approval-steps-in-aws-step-functions-and-amazon-api-gateway)
+Implementing Serverless Manual Approval Steps in AWS Step Functions and Amazon API Gateway
+Prep - SES services -> 
+		Identity Management -> Email Addresses -> Verify a new email address
+				confirm, the status should be verified
 
+1. Create an activity
+2. Create a state machine
+3. Create and deploy an API
+4. Create an activity worker Lambda function
+5. Test that the process works
+
+Step 1 - Step function -> Create an activity
+	just give name - MyActivity, copy arn(arn:aws:states:us-east-1:850774225033:activity:MyActivity)
+Step 2 - Create State machine with new role 
+		(arn:aws:states:us-east-1:850774225033:stateMachine:MyStateMachine,
+		arn:aws:iam::850774225033:role/service-role/StepFunctions-MyStateMachine-role-61911a41 
+		)
+{
+  "Comment": "Employee promotion process!",
+  "StartAt": "ManualApproval",
+  "States": {
+    "ManualApproval": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:us-east-1:850774225033:activity:MyActivity",
+      "TimeoutSeconds": 3600,
+      "End": true
+    }
+  }
+}
+Step 3 - Create and deploy and API Gateway
+Step3-1 ->iam role -> create role of API gateway (APIGatewayToStepFunctions - arn:aws:iam::850774225033:role/APIGatewayToStepFunctions)
+	policy -> awsstepfunctionfull access
+Step3-2. api gateway  -> create two resources /fail , /succeed
+/fail->create method get 
+	aws service -> step function 
+	http method -> post
+	action -> SendTaskFailure
+	Execution Role -> arn of role
+
+modify method request section -> (query string param)
+	taskToken
+Integration request conversion
+{
+   "cause": "Reject link was clicked.",
+   "error": "Rejected",
+   "taskToken": "$input.params('taskToken')"
+}
+
+
+One More get method /succeed
+->get
+	aws service -> step function 
+	http method -> post
+	action -> SendTaskSuccess
+	Execution Role -> arn of role
+
+modify method request section -> (query string param)
+	taskToken
+	
+Integration request conversion
+{
+   "output": "\"Approve link was clicked.\"",
+   "taskToken": "$input.params('taskToken')"
+}
+
+
+Step 4. Create an activity worker Lambda function
+arn:aws:lambda:us-east-1:850774225033:function:ManualStepActivityWorker
+Cloudwatch event - trigger
+	per minute
+to invoke lambda 
+
+
+Lambda Function-ManualStepActivityWorker
+'use strict';
+console.log('Loading function');
+const aws = require('aws-sdk');
+const stepfunctions = new aws.StepFunctions();
+const ses = new aws.SES();
+exports.handler = (event, context, callback) => {
+    
+    var taskParams = {
+        activityArn: 'arn:aws:states:us-east-1:850774225033:activity:MyActivity'
+    };
+    
+    stepfunctions.getActivityTask(taskParams, function(err, data) {
+        if (err) {
+            console.log(err, err.stack);
+            context.fail('An error occured while calling getActivityTask.');
+        } else {
+            if (data === null) {
+                // No activities scheduled
+                context.succeed('No activities received after 60 seconds.');
+            } else {
+                var input = JSON.parse(data.input);
+                var emailParams = {
+                    Destination: {
+                        ToAddresses: [
+                            input.managerEmailAddress
+                            ]
+                    },
+                    Message: {
+                        Subject: {
+                            Data: 'Your Approval Needed for Promotion!',
+                            Charset: 'UTF-8'
+                        },
+                        Body: {
+                            Html: {
+                                Data: 'Hi!<br />' +
+                                    input.employeeName + ' has been nominated for promotion!<br />' +
+                                    'Can you please approve:<br />' +
+                                    'https://bzeqow9lj3.execute-api.us-east-1.amazonaws.com/test/succeed?taskToken=' + encodeURIComponent(data.taskToken) + '<br />' +
+                                    'Or reject:<br />' +
+                                    'https://bzeqow9lj3.execute-api.us-east-1.amazonaws.com/test/fail?taskToken=' + encodeURIComponent(data.taskToken),
+                                Charset: 'UTF-8'
+                            }
+                        }
+                    },
+                    Source: input.managerEmailAddress,
+                    ReplyToAddresses: [
+                            input.managerEmailAddress
+                        ]
+                };
+                    
+                ses.sendEmail(emailParams, function (err, data) {
+                    if (err) {
+                        console.log(err, err.stack);
+                        context.fail('Internal Error: The email could not be sent.');
+                    } else {
+                        console.log(data);
+                        context.succeed('The email was successfully sent.');
+                    }
+                });
+            }
+        }
+    });
+};
+
+ManualStepActivityWorker-role-1pxtdgrc, 
+Create new custom role
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "states:GetActivityTask",
+      "Resource": "arn:aws:states:*:*:activity:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ses:SendEmail",
+      "Resource": "*"
+    }
+  ]
+}
+
+Increase the time of for lambda to 1 min 15 seconds
+Test the process
+{ "managerEmailAddress": "vaishali@fandsindia.com", "employeeName" : "VaishaliTest8.26" } 
+
+--------------------------------------------------------------------
 2. Expose it as API Gateway
 1. Create a role
 	API Gateway Role ->API Gateway
@@ -61,7 +240,6 @@ Parallel Lab for Step function
 			
 
 ---------------------------------------------------------
-
 Catch Lab for Step function
 	Start with a template -> Catch -> invoke a OpenCaseFunction
 	try sending different inputs

@@ -7,6 +7,10 @@ DMS Lab Prep.
 	MySQL plugin for chrome / SQL Workbench
 		mydb1.chidkemxak9r.us-east-1.rds.amazonaws.com, 3306, admin, mypassword
 
+		create table dept (deptno numeric primary key,  name varchar(20),  location varchar(50));
+		insert into dept values (10,'Finance','New York');
+		insert into dept values (20,'Development','San Jose');
+		
 2. IAM Role
 	Create Role to Read/Write on s3 and full data access on RDS
 	AWS Service -> DMS
@@ -14,14 +18,14 @@ DMS Lab Prep.
 		name - MyDMSforS3RDS, arn:aws:iam::850774225033:role/MyDMSforS3RDS
 
 DMS Lab 1 - MySQL to S3
-	Some Data in tables (simple table - 4/5 rows)
+	Some Data in tables (simple table - 4/5 rows)	
 	
 	Create a bucket
 		allow public access
 				mydepartments-01-fands
 				arn:aws:s3:::mydepartments-01-fands
 	
-	DMS
+	DMS - create replication instance
 		Console -> DMS -> Create replication instance
 			Name - replinstance01
 			Description - replinstance01
@@ -37,3 +41,27 @@ DMS Lab 1 - MySQL to S3
 				VPC security group(s)
 					default
 				Create
+				
+	DMS -> End Points Creation
+		Console -> DMS -> Endpoints
+		1. Endpoints -> Create endpoint ->Source endpoint
+				Select RDS DB instance -> select 
+					RDS Instance - mydb1
+				Endpoint configuration -> id -> MySQLSource
+						Source engine -> mysql
+						Access to endpoint database ->select Provide access information manually
+							servername, port, username, password - type
+					Endpoint settings - nochange
+					KMS master key - nochange
+					Tags - nochange
+				Test End Point Connection
+					vpc -> select
+					Replication instance - select
+					Run Test
+		2. 
+		
+		2. S3
+	
+	DMS -> Database migration tasks
+	
+	

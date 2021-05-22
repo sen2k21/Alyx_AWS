@@ -1,0 +1,39 @@
+Lab 1 - MySQL to S3
+Lab 2 - S3 to MySQL
+
+DMS Lab Prep.
+1.  Create one RDS – MySQL >5.7 version instance
+		Modify security role for 3306 port
+	MySQL plugin for chrome / SQL Workbench
+		mydb1.chidkemxak9r.us-east-1.rds.amazonaws.com, 3306, admin, mypassword
+
+2. IAM Role
+	Create Role to Read/Write on s3 and full data access on RDS
+	AWS Service -> DMS
+		Attach permissions policies - AmazonS3FullAccess, AmazonRDSDataFullAccess
+		name - MyDMSforS3RDS, arn:aws:iam::850774225033:role/MyDMSforS3RDS
+
+DMS Lab 1 - MySQL to S3
+	Some Data in tables (simple table - 4/5 rows)
+	
+	Create a bucket
+		allow public access
+				mydepartments-01-fands
+				arn:aws:s3:::mydepartments-01-fands
+	
+	DMS
+		Console -> DMS -> Create replication instance
+			Name - replinstance01
+			Description - replinstance01
+			Instance Class - dms.t2.micro
+				select Include previous-generation instance classes
+			Engine version - 	3.4.4
+			Allocated storage (GiB) - 50
+			VPC - default
+				Multi AZ - no
+				Publicly accessible - yes
+				
+			Advanced security and network configuration
+				VPC security group(s)
+					default
+				Create

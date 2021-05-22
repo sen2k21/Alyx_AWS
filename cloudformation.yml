@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  myReplicationTask:
+    Properties:
+      MigrationType: full-load
+      ReplicationInstanceArn: >-
+        arn:aws:dms:us-east-1:850774225033:rep:BH764HBTNYRF7NU32X6NTGRPVVA2TW5T337W4NY
+      SourceEndpointArn: >-
+        arn:aws:dms:us-east-1:850774225033:endpoint:6OHBKDS5X6AVQRFIME6S5KQRULFUZBBR5UNQ44Q
+      TableMappings: >-
+        { "rules": [ { "rule-type": "selection", "rule-id": "1", "rule-name":
+        "1", "object-locator": { "schema-name": "%", "table-name": "%" },
+        "rule-action": "include" } ] }
+      TargetEndpointArn: >-
+        arn:aws:dms:us-east-1:850774225033:endpoint:5NUKTMGVUG4IOWNZ5WFIL377RCMY7RUDY34XMZI
+    Type: 'AWS::DMS::ReplicationTask'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: b8cec7e0-993b-41a7-b03a-2dcce1f44f71
+Metadata:
+  'AWS::CloudFormation::Designer':
+    b8cec7e0-993b-41a7-b03a-2dcce1f44f71:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 90
+        'y': 40
+      z: 1
+      embeds: []

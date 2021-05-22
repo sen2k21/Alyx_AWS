@@ -1,5 +1,7 @@
+https://forms.gle/ojVeWhP3S3VUM4ks8
 Lab 1 - MySQL to S3
 Lab 2 - S3 to MySQL
+	csv files + json (column data)
 
 DMS Lab Prep.
 1.  Create one RDS – MySQL >5.7 version instance
@@ -58,10 +60,206 @@ DMS Lab 1 - MySQL to S3
 					vpc -> select
 					Replication instance - select
 					Run Test
-		2. 
+		2. EndPoints -> Create endpoint ->Target endpoint
+				Endpoint configuration
+						Endpoint identifier -> s3Target
+						Target engine -> s3
+					Endpoint settings - nochange
+					KMS master key - nochange
+					Tags - nochange
+				Test End Point Connection
+					vpc -> select
+					Replication instance - select
+					Run Test
 		
-		2. S3
-	
 	DMS -> Database migration tasks
+			Create Task
+				Task configuration
+					Task identifier -> TaskOne
+					Replication instance - select
+					Source database endpoint - select
+					Target database endpoint - select
+					Migration type
+						Migrate existing data
+				Task settings
+					Editing mode - wizard
+					Target table preparation mode - No change
+					Include LOB columns in replication - No change
+					Maximum LOB size (KB) - No change
+					Enable validation - No change
+					Enable CloudWatch logsInfo - No change
+					Advanced task settings - No change
+				Table mappings
+					Editing mode - wizard
+					Selection rules - Add new selection rule
+							Schema -> enter schema
+							Schema name -> innodb
+							Table Name -> dept
+							Action - include
+					Transformation rules - no change
+				Premigration assessment  - no change
+				Migration task startup configuration -> Automatically on create
+				Tags -> no change
+	Monitoring
+		Replication instance
+		migration task
+		Event 
+	Confirmation -> s3 bucket -> refresh -> see folder database -> folder as table -> 1 single csv file
+			download csv
+------------------------------------------------------------------------
+DMS Lab 2 - S3 -> MySQL
+	Create a bucket ->name =  mybucket-csv-to-mysql
+		enable versioning, 
+			create folders -> databasename -> innodb
+				create folder -> tablename -> states
+					upload zip.csv file in innodb/states
+			
 	
+	DMS - use replication instance - replinstance01
+				
+	DMS -> End Points Creation
+		Console -> DMS -> Endpoints
+		1. EndPoints -> Create endpoint ->Source endpoint
+				Endpoint configuration
+						Endpoint identifier -> s3Source
+						Source engine engine -> s3
+						Service access role ARN - arn:aws:iam::850774225033:role/MyDMSforS3RDS
+						bucketname - mybucket-csv-to-mysql
+						Table structure - 
+										{
+										"TableCount": "1",
+										"Tables": [
+											{  
+												"TableName": "states",
+												"TablePath": "innodb/states/",
+												"TableOwner": "innodb",
+												"TableColumns": [
+													{
+														"ColumnName": "Zip",
+														"ColumnType": "INT8",
+														"ColumnNullable": "false",
+														"ColumnIsPk": "true"
+													},
+													{
+														"ColumnName": "Place",
+														"ColumnType": "STRING",
+														"ColumnLength": "50"
+													},
+													{
+														"ColumnName": "State",
+														"ColumnType": "STRING",
+														"ColumnLength": "50"
+													},
+													{
+														"ColumnName": "StateAbbr",
+														"ColumnType": "STRING",
+														"ColumnLength": "2"
+													},
+													{
+														"ColumnName": "County",
+														"ColumnType": "STRING",
+														"ColumnLength": "50"
+													},
+													{
+														"ColumnName": "Latitude",
+														"ColumnType": "NUMERIC",
+														"ColumnPrecision": "6",
+														"ColumnScale": "4"
+													},
+													{
+														"ColumnName": "Longitude",
+														"ColumnType": "NUMERIC",
+														"ColumnPrecision": "6",
+														"ColumnScale": "4"
+													}
+												],
+												"TableColumnsTotal": "7"
+											}
+										]
+									}
+						Bucket folder - only outside database/tablename - empty
+						CDC path - empty
+					Endpoint settings - nochange
+					KMS master key - nochange
+					Tags - nochange
+				Test End Point Connection
+					vpc -> select
+					Replication instance - select
+					Run Test
+		
+		
+		
+		Endpoints -> Create endpoint ->Source endpoint
+				Select RDS DB instance -> select 
+					RDS Instance - mydb1
+				Endpoint configuration -> id -> MySQLSource
+						Source engine -> mysql
+						Access to endpoint database ->select Provide access information manually
+							servername, port, username, password - type
+					Endpoint settings - nochange
+					KMS master key - nochange
+					Tags - nochange
+				Test End Point Connection
+					vpc -> select
+					Replication instance - select
+					Run Test
+		2. EndPoints -> Create endpoint ->Target endpoint
+				Endpoint configuration
+					Select RDS DB instance
+					RDS Instance - mydb1
+					Endpoint identifier -> dbTarget
+						Target engine -> MySQL
+					Access to endpoint database
+						Provide access information manually
+						
+					Endpoint settings - nochange
+					KMS master key - nochange
+					Tags - nochange
+				Test End Point Connection
+					vpc -> select
+					Replication instance - select
+					Run Test
+		
+	DMS -> Database migration tasks
+			Create Task
+				Task configuration
+					Task identifier -> TaskTwo
+					Replication instance - select
+					Source database endpoint - s3source
+					Target database endpoint - dbtarget
+					Migration type
+						Migrate existing data
+				Task settings
+					Editing mode - wizard
+					Target table preparation mode - No change
+					Include LOB columns in replication - No change
+					Maximum LOB size (KB) - No change
+					Enable validation - No change
+					Enable CloudWatch logsInfo - No change
+					Advanced task settings - No change
+				Table mappings
+					Editing mode - wizard
+					Selection rules - Add new selection rule
+							Schema -> enter schema
+							Schema name -> %
+							Table Name -> %
+							Action - include
+					Transformation rules - no change
+				Premigration assessment  - no change
+				Migration task startup configuration -> Automatically on create
+				Tags -> no change
+	Monitoring
+		Replication instance
+		
+		
+		migration task
+		Event 
+	Confirmation -> Check table in MySQL
 	
+	Copy zip.csv as zip1.csv -> modify primary keys
+		run the task again (restart)
+		both csvs would be processed
+	modify zip1.csv to include duplication 
+		run the task again (restart) and check rows.
+			
+			

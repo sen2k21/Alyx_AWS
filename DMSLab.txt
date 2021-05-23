@@ -1,4 +1,89 @@
-https://forms.gle/ojVeWhP3S3VUM4ks8
+Lab 3 - DMS Lab Prep.
+	1.  Create one RDS – MySQL >5.7 version instance
+	2.  Create one RDS - Postgres - 12.5 version instance
+			security - inbound rule -> all postgres
+
+	IAM Role - use MyDMSforS3RDS with arn:aws:iam::850774225033:role/MyDMSforS3RDS
+
+
+
+DMS - Mysql to Postgres
+	MySQL -> Some Data in tables (simple tables - 4/5 rows)
+	
+	DMS - use same replication instance
+
+	DMS -> End Points Creation (if existing, keep as it is)
+		Console -> DMS -> Endpoints
+		1. Endpoints -> Create endpoint ->Source endpoint
+				Select RDS DB instance -> select 
+					RDS Instance - mydb1
+				Endpoint configuration -> id -> MySQLSource
+						Source engine -> mysql
+						Access to endpoint database ->select Provide access information manually
+							servername, port, username, password - type
+					Endpoint settings - nochange
+					KMS master key - nochange
+					Tags - nochange
+				Test End Point Connection
+					vpc -> select
+					Replication instance - select
+					Run Test
+		
+		2. EndPoints -> Create endpoint -> Target endpoint
+			Select RDS DB instance -> select 
+					RDS Instance - postgresinstance
+				Endpoint configuration -> id -> PostgresTarget
+						Source engine -> postgres
+						Access to endpoint database ->select Provide access information manually
+							servername, port, username, password - type
+							Database name - postgres
+					Endpoint settings - nochange
+					KMS master key - nochange
+					Tags - nochange
+				Test End Point Connection
+					vpc -> select
+					Replication instance - select
+					Run Test
+
+	DMS -> Database migration tasks
+			Create Task
+				Task configuration
+					Task identifier -> TaskThree
+					Replication instance - select
+					Source database endpoint - mysqlSource
+					Target database endpoint - postgresTarget
+					Migration type
+						Migrate existing data
+				Task settings
+					Editing mode - wizard
+					Target table preparation mode - No change
+					Include LOB columns in replication - No change
+					Maximum LOB size (KB) - No change
+					Enable validation - No change
+					Enable CloudWatch logsInfo - No change
+					Advanced task settings - No change
+				Table mappings
+					Editing mode - wizard
+					Selection rules - Add new selection rule
+							Schema -> enter schema
+							Schema name -> innodb
+							Table Name -> dept
+							Action - include
+					Transformation rules - change table name "dept" to "department"
+											change column of dept table "deptno" to "departmentnumber"
+											change column of dept table "location" to uppercase
+											change column of states table "abbr" should be removed
+				Premigration assessment  - no change
+				Migration task startup configuration -> Automatically on create
+				Tags -> no change
+	Monitoring
+		Replication instance
+		migration task
+		Event 
+	Confirmation -> monitoring -> table names -> number of rows
+		tool - connect to postgres -> check table structure
+
+-----------------------------------
 Lab 1 - MySQL to S3
 Lab 2 - S3 to MySQL
 	csv files + json (column data)
@@ -261,5 +346,7 @@ DMS Lab 2 - S3 -> MySQL
 		both csvs would be processed
 	modify zip1.csv to include duplication 
 		run the task again (restart) and check rows.
+			
+			
 			
 			

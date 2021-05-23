@@ -2,11 +2,22 @@ Lab 4 -
 		Task - create new task for migration + cdc
 		Enable sql binary logs 
 			Console -> RDS -> Select Mysql
-				https://aws.amazon.com/blogs/database/setting-up-a-binlog-server-for-amazon-rds-mysql-and-mariadb-using-mariadb-maxscale/
+				https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.MySQL.html
+				MySQL Client
+					call mysql.rds_set_configuration('binlog_format', 'ROW');
+  					call mysql.rds_set_configuration('binlog retention hours', 24);
+					restart 
+				AWS console
+					rds->mydb->configuration->option/parameter group-> default:mysql-5-7->
+							change parametergroup -> default.mysql5.7
+								change - binlog_format - ROW
+									 binlog retention hours 24
 		Run the task 
 		MySQL Client -> modify 
 						Insert to add the record, delete, update
 		DMS -> Task -> Logs ->Table statistics
+
+
 -----------------------------
 Lab 3 - DMS Lab Prep.
 	1.  Create one RDS – MySQL >5.7 version instance

@@ -1,7 +1,38 @@
+Lab  2- Classfier
+	Create a classifier 
+		Classifier name - empxml
+		Classifier type - xml
+		row tag - employee 
+
+	Upload two files in s3 bucket
+	File1 - <?xml version="1.0" ?>
+		<employees>
+			<employee>
+				<empno>10</empno>
+				<empname>aaa</empname>
+				<salary>1000</salary>
+			</employee>
+			<employee>
+				<empno>20</empno>
+				<empname>bbbb</empname>
+				<salary>2000</salary>
+			</employee>
+			<employee>
+				<empno>30</empno>
+				<empname>CCC</empname>
+				<salary>3000</salary>
+			</employee>
+
+		</employees>
+	Run crawler -> check tables
+
+	
+
+-------------------------------
 Lab 1 - Crawler
 
 1. Create s3 bucket - csv-samples-for-dms
-    5 /6 files -> csv (with header, without header), json , xml
+    5 /6 files -> csv (with header, without header), json , xml (https://github.com/Vaishali-Tapaswi/Alyx_AWS/tree/main/samplefiles)
 2. Crawler
   -> Create 
 			1. name - crawler1

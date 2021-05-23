@@ -1,0 +1,27 @@
+﻿Service,AWS,GCP ,AZURE
+IaaS,Elastic Compute Cloud (EC2),Compute Engine,Virtual Machines
+PaaS,Elastic Beanstalk,App Engine,"App Service, Cloud Services"
+Containers,EC2 Container Service (ECS),-,Container Services
+Microservices,Elastic Container Service for Kubernetes (EKS),Google Kubernetes Engine,Azure Kubernetes Service (AKS)
+Serverless,Lambda,Cloud Functions,Azure Functions
+Block Storage,Elastic Block Store (EBS),Persistent Disk,Disk Storage
+Object Storage,Simple Storage Service (S3),Cloud Storage,Blob Storage
+Reduced-availability Storage,S3 Infrequent Access (IA),Cloud Storage Nearline,Azure Cool Blob Storage
+Archival Storage,Amazon Glacier,Cloud Storage Coldline,Azure Archive Blob Storage
+File Storage,Amazon Elastic File System (EFS),Cloud Filestore,Azure File Storage
+Virtual Networks,Amazon Virtual Private Cloud (VPC),Virtual Private Cloud,Virtual Network (VNets)
+DNS,Route 53,Cloud DNS,Azure DNS
+CDN,CloudFront,Cloud Content Delivery Network,Azure Content Delivery Network
+Dedicated Interconnect,Direct Connect,Cloud Interconnect,ExpressRoute
+Load Balancer,Elastic Load Balancer,Cloud Load Balancing,Load Balancer
+Cross-premises connectivity,AWS VPN Gateway,Cloud VPN,Azure VPN Gateway
+RDBMS,Relational Database Service (RDS),Cloud SQL,SQL Database
+NoSQL,Amazon DynamoDB,"Cloud Datastore, Cloud Bigtable","Azure Cosmos DB, Table Storage"
+Caching,ElastiCache,Cloud Memorystore,Redis Caches
+Batch Data Processing,"Amazon Elastic MapReduce, AWS Batch","Cloud Dataproc, Cloud Dataflow","HDInsight, Batch"
+Stream Data Processing,Amazon Kinesis,Cloud Dataflow,Stream Analytics
+Analytics,"Amazon Redshift, Amazon Athena",BigQuery,SQL Data Warehouse
+Workflow Orchestration,"Amazon Data Pipeline, AWS Glue",Cloud Composer,"Data Factory, Data Catalog"
+Messaging,"SNS, SQS",Cloud Pub/Sub,Azure Notification Hubs
+"Monitoring, Logging",Amazon CloudWatch,Stackdriver,"Azure Application Insights, Azure Monitor"
+Deployment (IaC),AWS CloudFormation,Cloud Deployment Manager,Azure Automation

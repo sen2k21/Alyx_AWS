@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<products>
+	<product>
+		<prodno>10</prodno>
+		<name>aaa</name>
+		<prodprice>1000</prodprice>
+	</product>
+	<product>
+		<prodno>20</prodno>
+		<name>bbbb</name>
+		<prodprice>2000</prodprice>
+	</product>
+	<product>
+		<prodno>30</prodno>
+		<name>CCC</name>
+		<prodprice>3000</prodprice>
+	</product>
+</products>

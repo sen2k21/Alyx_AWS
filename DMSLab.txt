@@ -1,3 +1,13 @@
+Lab 4 - 
+		Task - create new task for migration + cdc
+		Enable sql binary logs 
+			Console -> RDS -> Select Mysql
+				https://aws.amazon.com/blogs/database/setting-up-a-binlog-server-for-amazon-rds-mysql-and-mariadb-using-mariadb-maxscale/
+		Run the task 
+		MySQL Client -> modify 
+						Insert to add the record, delete, update
+		DMS -> Task -> Logs ->Table statistics
+-----------------------------
 Lab 3 - DMS Lab Prep.
 	1.  Create one RDS – MySQL >5.7 version instance
 	2.  Create one RDS - Postgres - 12.5 version instance

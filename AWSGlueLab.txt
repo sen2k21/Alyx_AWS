@@ -1,0 +1,25 @@
+Lab 1 - Crawler
+
+1. Create s3 bucket - csv-samples-for-dms
+    5 /6 files -> csv (with header, without header), json , xml
+2. Crawler
+  -> Create 
+			1. name - crawler1
+			2. Choose data store - s3
+				Connection - empty
+			3.	Crawl data in
+					Specified path in my account
+				Include path - s3://csv-samples-for-dms
+				Add another data store - No
+			4.	Create an IAM role - role1
+			5.	Frequency - run on demand
+			6.	Database
+					add database
+							Database name  - mysqldb
+							Resource link name - arn of your db
+							next
+			Create 
+	select crawler -> run crawler
+		number of tables affected
+3. database
+		your db -> check tables for information

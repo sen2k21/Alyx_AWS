@@ -1,3 +1,73 @@
+
+------------------------------------------ New Lab --------------------------------------------------------
+
+0. IAM changes  - GlueRole -> edit that role and allow S3fullaccess and RDSFullaccess
+1. Create s3 bucket - input-for-glue
+   	upload contents of glue.zip
+2. Create RDS (free tier, public database)
+	Mysql, execute -> deptemp.txt in innodb
+3. Crawler s3 bucket
+	  -> Create 
+		1. name - mys3crawler
+		2. Choose data store - s3
+			Connection - empty
+		3.	Crawl data in
+			Specified path in my account
+			Include path - s3://input-for-glue
+			Add another data store - No
+		4.	Create an IAM role - select role1
+		5.	Frequency - run on demand
+		6.	Database
+				add database
+				Database name  - mys3db
+		next
+		Create 
+	  -> select crawler -> run crawler
+		number of tables affected
+	confirm databases(Glue)
+		your db -> check tables for information
+
+4. Crawler RDS 
+	-> Add Connection
+		->Connection Name -> mysqlrds
+	  	  connection type- RDS
+		  Database engine - mysql
+		  No SSL
+		  	Next
+		 Instance -> select
+		 Database name - innodb
+		 username - admin
+		 password -
+	Test the connection -
+		  	
+	-> add crawler -> 
+		1. name - myRDScrawler
+			datastores, crawl all the folders
+		2. Choose data store - 
+			Choose a data store - jdbc
+			Connection -> (Add connection ->
+					Name - jdbc:mysql://db1.chidkemxak9r.us-east-1.rds.amazonaws.com:3306/db1
+					Connection type - RDS	
+					Include path - innodb) or create connection earlier
+	---------------------------> new windows for VPC-> 
+				EndPoint ->Create EndPoint ->  select RDS -> Create endpoint
+							       select s3 -> Create endpoint
+	-------------------------->ec2 -> network security -> add new inboud rule->
+							All TCP ->port range - 0-65535 -> source -> (same sg group - default)
+		4.	Create an IAM role - select role1
+		5.	Frequency - run on demand
+		select crawler -> run crawler
+		number of tables affected
+	confirm databases(Glue)
+		your db -> check tables for information
+
+5. Confirmation
+AWS Glue-> Databases -> Connections -. 
+	select sql connection -> select IAM Role -> test connection -> successful
+
+
+------------------------------------------ Old Lab --------------------------------------------------------
+
 Lab  2- Classfier
 	Create a classifier 
 		Classifier name - empxml
